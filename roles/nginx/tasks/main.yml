@@ -1,0 +1,26 @@
+---
+- name: Add Nginx repo
+  apt_repository:
+    repo: ppa:nginx/development
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+    force: yes
+    update_cache: yes
+
+- name: Check Nginx configs exist
+  stat: path=/etc/nginx/.git
+  register: git_exists
+
+- name: Remove default Nginx configs
+  file:
+    path: /etc/nginx
+    state: absent
+  when: not git_exists.stat.exists
+
+- name: Clone Nginx configs
+  git:
+    repo: http://github.com
+

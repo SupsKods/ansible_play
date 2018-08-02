@@ -1,0 +1,15 @@
+---
+#This task installs and enables apche on webservers
+- name: Ensure Apache is installed
+  apt:  name=apache2 state=latest
+
+- name: Ensure Apache is running
+  service: name=apache2 state=running enabled=yes
+
+- name: copy files to document root
+  copy: src=hib.png dest=/var/www/html/hib.png
+- name: copy application data to root  
+  template: src=index.html.j2 dest=/var/www/html/index.html
+  notify: 
+    - restart apache
+

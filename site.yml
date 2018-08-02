@@ -1,0 +1,9 @@
+---
+- name: install and configure webserver
+  hosts: webservers
+  remote_user: supriya
+  sudo: yes
+
+  roles:
+    - apache
+
